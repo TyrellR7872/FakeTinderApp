@@ -1,4 +1,4 @@
-package com.troberts.FakeTinderApp;
+package my.troberts.FakeTinderApp;
 
 import org.junit.Test;
 

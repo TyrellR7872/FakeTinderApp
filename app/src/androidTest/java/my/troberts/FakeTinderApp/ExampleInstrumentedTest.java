@@ -1,4 +1,4 @@
-package com.troberts.FakeTinderApp;
+package my.troberts.FakeTinderApp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
