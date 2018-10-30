@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">FakeTinderApp</string>
+    <string name="title_activity_start_subject">StartSubject</string>
+    <string name="please_enter_subject_number">Please enter subject number</string>
+    <string name="button">Button</string>
+    <string name="done">Done</string>
+    <string name="submit">Submit</string>
+    <string name="there_are_no_subjects">There are no subjects</string>
+    <string name="subject_history">Subject History</string>
+    <string name="clear_history">Clear History</string>
+    <string name="todo">TODO</string>
+    <string name="save_to_file">Save to file</string>
+    <string name="create_file">Create New File</string>
+    <string name="first_subject">This is your first subject</string>
+    <string name="experimental_tinder_app">Experimental Tinder App</string>
+    <string name="textview">TextView</string>
+</resources>
