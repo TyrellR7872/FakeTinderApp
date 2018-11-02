@@ -19,6 +19,10 @@ public class Subject {
 
     }
 
+    int getId(){
+        return subjectId;
+    }
+
     void swipeLeft(){
         leftSwipes++;
         swipeHistory.add("L");

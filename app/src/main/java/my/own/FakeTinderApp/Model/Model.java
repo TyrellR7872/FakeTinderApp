@@ -2,20 +2,12 @@ package my.own.FakeTinderApp.Model;
 
 public class Model {
 
-    public String title,image;
+    public String image;
 
-    public Model(String title, String image) {
-        this.title = title;
+    public Model(String image) {
         this.image = image;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getImage() {
         return image;

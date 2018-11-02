@@ -1,19 +1,20 @@
 package my.own.FakeTinderApp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.huxq17.swipecardsview.SwipeCardsView;
-import my.own.FakeTinderApp.Adapter.CardAdapter;
-import my.own.FakeTinderApp.Model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import my.own.FakeTinderApp.Adapter.CardAdapter;
+import my.own.FakeTinderApp.Model.Model;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,22 @@ public class MainActivity extends AppCompatActivity {
     private List<Model> modelList = new ArrayList<>();
     private Subject subject;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
+    private final String[] puppies = new String[]{"https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+    "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+    "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+    "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+            "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"};
 
 
     Handler handler;
@@ -80,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, StartSubject.class);
+                intent.putExtra("prevSubject",subject.getId());
                 intent.putExtra("history",subject.toString());
                 subject.clear();
-                System.out.println(intent.getStringArrayListExtra("history"));
                 reset();
                 startActivity(intent);
 
@@ -111,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         Seconds = 0 ;
     }
 
+
+
     public Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -125,10 +144,13 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void getData() {
-        modelList.add(new Model("Captain America","https://i.pinimg.com/originals/43/19/be/4319be65da73451d2d12ef105daff213.jpg"  ));
-        modelList.add(new Model("Spider-Man","https://i.pinimg.com/originals/4e/d1/ef/4ed1efa48980e43cccd66bcde7585f59.jpg" ));
-        modelList.add(new Model("Iron Man","https://www.thenology.com/wp-content/uploads/2014/09/iron-man-comic-mobile-wallpaper-1080x1920-6212-108.jpg"  ));
+//        modelList.add(new Model("https://i.pinimg.com/originals/43/19/be/4319be65da73451d2d12ef105daff213.jpg"  ));
+//        modelList.add(new Model("https://i.pinimg.com/originals/4e/d1/ef/4ed1efa48980e43cccd66bcde7585f59.jpg" ));
+//        modelList.add(new Model("https://www.thenology.com/wp-content/uploads/2014/09/iron-man-comic-mobile-wallpaper-1080x1920-6212-108.jpg"  ));
 
+        for (String pup: puppies){
+            modelList.add(new Model(pup));
+        }
         CardAdapter cardAdapter = new CardAdapter(modelList,this);
         swipeCardsView.setAdapter(cardAdapter);
     }

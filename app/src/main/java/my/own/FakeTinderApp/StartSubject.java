@@ -32,7 +32,7 @@ import java.util.Set;
 public class StartSubject extends AppCompatActivity {
 
     private EditText subNum;
-    private Button btnSubmit, btnHistory, clearBtn;
+    private Button btnSubmit, createFile, clearBtn;
     private TextView prevSubject;
     private static ArrayList<String> subjects = new ArrayList<>();
     private static SharedPreferences prefs;
@@ -49,27 +49,39 @@ public class StartSubject extends AppCompatActivity {
         if (subjects.isEmpty()) {
             subjects.addAll(Objects.requireNonNull(prefs.getStringSet("subjects", new HashSet<String>())));
         }
+
         String prevMessage;
-        prevSub = prefs.getInt("prevSubject", 0);
+        if (subjects.isEmpty()){
+            prevSub = 0;
+        } else {
+            prevSub = prefs.getInt("prevSubject", 0);
+        }
+
+
+
+
+
+        subNum = findViewById(R.id.subNum);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        createFile = findViewById(R.id.btnFile);
+        clearBtn = findViewById(R.id.clearBtn);
+        prevSubject = findViewById(R.id.prevSubject);
+
+        String newSubject = getIntent().getStringExtra("history");
+        int newPrevId = getIntent().getIntExtra("prevSubject", 0);
+        if (newSubject != null){
+            subjects.add(newSubject);
+            prevSub = newPrevId;
+            savePreferences();
+        }
+
         if (prevSub == 0) {
             prevMessage = getString(R.string.first_subject);
         } else{
             prevMessage = "You previously completed Subject: " + Integer.toString(prevSub);
         }
 
-
-
-        subNum = findViewById(R.id.subNum);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        btnHistory = findViewById(R.id.btnFile);
-        clearBtn = findViewById(R.id.clearBtn);
-        prevSubject = findViewById(R.id.prevSubject);
         prevSubject.setText(prevMessage);
-
-        String newSubject = getIntent().getStringExtra("history");
-        if (newSubject != null){
-            subjects.add(newSubject);
-        }
 
 
 
@@ -96,14 +108,14 @@ public class StartSubject extends AppCompatActivity {
 
 
 
-        btnHistory.setOnClickListener(new View.OnClickListener() {
+        createFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (subjects.isEmpty()){
                     Toast.makeText(StartSubject.this, "There are no subjects", Toast.LENGTH_SHORT).show();
                 }else{
                     if (isStoragePermissionGranted()) {
-                        btnHistoryAction();
+                        createFileAction();
                     }
                 }
             }
@@ -134,7 +146,7 @@ public class StartSubject extends AppCompatActivity {
             }
         });
     }
-    private void btnHistoryAction(){
+    private void createFileAction(){
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(StartSubject.this);
         builder.setTitle("Enter a new file name");
 
@@ -186,7 +198,7 @@ public class StartSubject extends AppCompatActivity {
     private void writeToFile(ArrayList<String> data,String filename ) {
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         if (!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
         if (!filename.contains(".csv") && !filename.contains(".txt")) {
             filename = filename + ".csv";
@@ -231,7 +243,7 @@ public class StartSubject extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            btnHistoryAction();
+            createFileAction();
         } else {
             Toast.makeText(StartSubject.this,"Cannot write unless permission granted", Toast.LENGTH_SHORT).show();
         }

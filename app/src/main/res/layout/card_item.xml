@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="10dp"
     app:cardMaxElevation="5dp"
     app:cardUseCompatPadding="false"
     android:background="@color/colorPrimary"
-    app:cardElevation="3dp">
+    app:cardElevation="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,12 +19,15 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:contentDescription="@string/todo"
             android:cropToPadding="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_centerInParent="true"/>
+
 
         <ImageView
             android:id="@+id/swipe_left"

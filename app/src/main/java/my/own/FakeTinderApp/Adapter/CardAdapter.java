@@ -4,13 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-import my.own.FakeTinderApp.Model.Model;
-import my.own.FakeTinderApp.R;
-
 import com.huxq17.swipecardsview.BaseCardAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import my.own.FakeTinderApp.Model.Model;
+import my.own.FakeTinderApp.R;
 
 public class CardAdapter extends BaseCardAdapter{
 
@@ -38,6 +38,7 @@ public class CardAdapter extends BaseCardAdapter{
             return;
         }
         ImageView imageView = cardview.findViewById(R.id.imageView);
+
         Model model = modelList.get(position);
         Picasso.with(context).load(model.getImage()).into(imageView);
 
