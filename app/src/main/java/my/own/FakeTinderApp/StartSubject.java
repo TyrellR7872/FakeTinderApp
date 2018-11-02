@@ -1,7 +1,6 @@
 package my.own.FakeTinderApp;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -95,12 +94,17 @@ public class StartSubject extends AppCompatActivity {
             }
         });
 
+
+
         btnHistory.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if (isStoragePermissionGranted()) {
-                    btnHistoryAction();
+                if (subjects.isEmpty()){
+                    Toast.makeText(StartSubject.this, "There are no subjects", Toast.LENGTH_SHORT).show();
+                }else{
+                    if (isStoragePermissionGranted()) {
+                        btnHistoryAction();
+                    }
                 }
             }
 
@@ -131,37 +135,34 @@ public class StartSubject extends AppCompatActivity {
         });
     }
     private void btnHistoryAction(){
-        if (subjects.isEmpty()) {
-            Toast.makeText(StartSubject.this, "There are no subjects", Toast.LENGTH_SHORT).show();
-        } else {
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(StartSubject.this);
-            builder.setTitle("Enter a new file name");
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(StartSubject.this);
+        builder.setTitle("Enter a new file name");
 
-            final EditText input = new EditText(StartSubject.this);
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            input.setHint("Should end in .csv or .txt");
-            builder.setView(input);
+        final EditText input = new EditText(StartSubject.this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint("Should end in .csv or .txt");
+        builder.setView(input);
 
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (input.getText().toString().isEmpty()) {
-                        Toast.makeText(StartSubject.this, "Please enter a file name", Toast.LENGTH_SHORT).show();
-                    } else {
-                        m_Text = input.getText().toString();
-                        writeToFile(subjects, m_Text);
-                    }
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (input.getText().toString().isEmpty()) {
+                    Toast.makeText(StartSubject.this, "Please enter a file name", Toast.LENGTH_SHORT).show();
+                } else {
+                    m_Text = input.getText().toString();
+                    writeToFile(subjects, m_Text);
                 }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
 
-            builder.show();
-        }
+        builder.show();
+
 
     }
 
