@@ -187,8 +187,7 @@ public class StartSubject extends AppCompatActivity {
         if (!dir.exists()) {
             dir.mkdir();
         }
-        String ending = filename.substring(filename.length()-4, filename.length());
-        if (!ending.contains(".csv")) {
+        if (!filename.contains(".csv") && !filename.contains(".txt")) {
             filename = filename + ".csv";
         }
         File file = new File(dir, filename);
