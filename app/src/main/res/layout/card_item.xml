@@ -30,7 +30,6 @@
 
 
         <ImageView
-            android:id="@+id/swipe_left"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
@@ -42,7 +41,6 @@
             app:srcCompat="@drawable/swipe_left" />
 
         <ImageView
-            android:id="@+id/swipe_right"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentEnd="true"

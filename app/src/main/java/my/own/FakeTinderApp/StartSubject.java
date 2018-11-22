@@ -92,18 +92,22 @@ public class StartSubject extends AppCompatActivity {
                 if (subNum.getText().toString().isEmpty()){
                     Toast.makeText(StartSubject.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    int subjectNum = Integer.parseInt(subNum.getText().toString());
-                    System.out.println(subjectNum);
-
-                    Intent intent = new Intent(StartSubject.this,
-                            MainActivity.class);
-
-                    intent.putExtra("subjectNum",subjectNum);
-                    prevSub = subjectNum;
-                    startActivity(intent);
+                else if (subNum.getText().toString() == "0") {
+                    Toast.makeText(StartSubject.this, "There can be no subject 0", Toast.LENGTH_SHORT).show();
                 }
-            }
+                    else {
+                        int subjectNum = Integer.parseInt(subNum.getText().toString());
+                        System.out.println(subjectNum);
+
+                        Intent intent = new Intent(StartSubject.this,
+                                MainActivity.class);
+
+                        intent.putExtra("subjectNum",subjectNum);
+                        prevSub = subjectNum;
+                        startActivity(intent);
+                    }
+                }
+
         });
 
 
@@ -147,7 +151,7 @@ public class StartSubject extends AppCompatActivity {
         });
     }
     private void createFileAction(){
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(StartSubject.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(StartSubject.this);
         builder.setTitle("Enter a new file name");
 
         final EditText input = new EditText(StartSubject.this);

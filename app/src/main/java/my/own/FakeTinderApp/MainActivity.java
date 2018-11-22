@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     Handler handler;
-
-
     int Seconds;
 
     @Override
@@ -61,11 +59,12 @@ public class MainActivity extends AppCompatActivity {
         swipeCardsView.enableSwipe(true);
         getData();
         handler = new Handler() ;
-        reset();
+        start();
 
         swipeCardsView.setCardsSlideListener(new SwipeCardsView.CardsSlideListener() {
             @Override
             public void onShow(int index) {
+                reset();
                 start();
             }
 
