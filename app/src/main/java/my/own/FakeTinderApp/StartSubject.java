@@ -32,7 +32,7 @@ import java.util.Set;
 public class StartSubject extends AppCompatActivity {
 
     private EditText subNum;
-    private Button btnSubmit, createFile, clearBtn;
+    private Button btnSubmitMale, btnSubmitFemale, createFile, clearBtn;
     private TextView prevSubject;
     private static ArrayList<String> subjects = new ArrayList<>();
     private static SharedPreferences prefs;
@@ -62,7 +62,8 @@ public class StartSubject extends AppCompatActivity {
 
 
         subNum = findViewById(R.id.subNum);
-        btnSubmit = findViewById(R.id.btnSubmit);
+        btnSubmitMale = findViewById(R.id.btnSubmitM);
+        btnSubmitFemale = findViewById(R.id.btnSubmitF);
         createFile = findViewById(R.id.btnFile);
         clearBtn = findViewById(R.id.clearBtn);
         prevSubject = findViewById(R.id.prevSubject);
@@ -86,28 +87,19 @@ public class StartSubject extends AppCompatActivity {
 
 
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        btnSubmitMale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (subNum.getText().toString().isEmpty()){
-                    Toast.makeText(StartSubject.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
-                }
-                else if (subNum.getText().toString() == "0") {
-                    Toast.makeText(StartSubject.this, "There can be no subject 0", Toast.LENGTH_SHORT).show();
-                }
-                    else {
-                        int subjectNum = Integer.parseInt(subNum.getText().toString());
-                        System.out.println(subjectNum);
+                onSubmitClick("male");
+            }
 
-                        Intent intent = new Intent(StartSubject.this,
-                                MainActivity.class);
+        });
 
-                        intent.putExtra("subjectNum",subjectNum);
-                        prevSub = subjectNum;
-                        startActivity(intent);
-                    }
-                }
-
+        btnSubmitFemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSubmitClick("female");
+            }
         });
 
 
@@ -189,6 +181,27 @@ public class StartSubject extends AppCompatActivity {
 
     }
 
+    private void onSubmitClick(String gender){
+        if (subNum.getText().toString().isEmpty()){
+            Toast.makeText(StartSubject.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+        }
+        else if (subNum.getText().toString() == "0") {
+            Toast.makeText(StartSubject.this, "There can be no subject 0", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            int subjectNum = Integer.parseInt(subNum.getText().toString());
+            System.out.println(subjectNum);
+
+            Intent intent = new Intent(StartSubject.this,
+                    MainActivity.class);
+
+            intent.putExtra("subjectNum",subjectNum);
+            intent.putExtra("gender",gender);
+            prevSub = subjectNum;
+            startActivity(intent);
+        }
+    }
+
     private void savePreferences(){
         Set<String> set = new HashSet<>(subjects);
         prefs = getSharedPreferences("myprefs",0);
@@ -227,11 +240,10 @@ public class StartSubject extends AppCompatActivity {
         String swipeNums;
         String lengthNums;
         StringBuilder swipeNumsBuilder = new StringBuilder();
-        for (int i = 1; i<40; i++){
+        for (int i = 1; i<41; i++){
             swipeNumsBuilder.append(i).append("_swipe, ");
         }
         swipeNums = swipeNumsBuilder.toString();
-        swipeNums = swipeNums+"40_swipe, ";
         StringBuilder lengthNumsBuilder = new StringBuilder();
         for (int i = 1; i<40; i++){
             lengthNumsBuilder.append(i).append("_length, ");

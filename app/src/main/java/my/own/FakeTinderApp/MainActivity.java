@@ -1,6 +1,7 @@
 package my.own.FakeTinderApp;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -10,8 +11,11 @@ import android.widget.Button;
 
 import com.huxq17.swipecardsview.SwipeCardsView;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import my.own.FakeTinderApp.Adapter.CardAdapter;
 import my.own.FakeTinderApp.Model.Model;
@@ -23,22 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private List<Model> modelList = new ArrayList<>();
     private Subject subject;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
-    private final String[] puppies = new String[]{"https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-    "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-    "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-    "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
-            "https://images.pexels.com/photos/460823/pexels-photo-460823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"};
+    private String[] faces;
+    private String gender;
 
 
     Handler handler;
@@ -50,7 +40,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final int subjectId = getIntent().getIntExtra("subjectNum",0);
+        gender = getIntent().getStringExtra("gender");
+
         subject = new Subject(subjectId);
+        AssetManager myAssets = getAssets();
+        try {
+            if (gender.equals("male")){
+                faces = Objects.requireNonNull(myAssets.list("malePics"));
+            } else{
+                faces = myAssets.list("femalePics");
+            }
+        } catch (IOException e) {
+        }
 
         doneBtn = findViewById(R.id.doneBtn);
         doneBtn.setVisibility(View.INVISIBLE);
@@ -143,14 +144,18 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void getData() {
-//        modelList.add(new Model("https://i.pinimg.com/originals/43/19/be/4319be65da73451d2d12ef105daff213.jpg"  ));
-//        modelList.add(new Model("https://i.pinimg.com/originals/4e/d1/ef/4ed1efa48980e43cccd66bcde7585f59.jpg" ));
-//        modelList.add(new Model("https://www.thenology.com/wp-content/uploads/2014/09/iron-man-comic-mobile-wallpaper-1080x1920-6212-108.jpg"  ));
-
-        for (String pup: puppies){
-            modelList.add(new Model(pup));
-        }
-        CardAdapter cardAdapter = new CardAdapter(modelList,this);
+        makeShuffleList(faces);
+        CardAdapter cardAdapter = new CardAdapter(modelList,gender,this);
         swipeCardsView.setAdapter(cardAdapter);
+    }
+
+    private void makeShuffleList(String[] faces){
+        List<Model> list = new ArrayList<>();
+        for (String face: faces){
+            list.add(new Model(face));
+        }
+        Collections.shuffle(list);
+        modelList.addAll(list);
+
     }
 }

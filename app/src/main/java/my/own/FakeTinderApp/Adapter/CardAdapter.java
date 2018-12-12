@@ -16,10 +16,12 @@ public class CardAdapter extends BaseCardAdapter{
 
     private List<Model> modelList;
     private Context context;
+    private String gender;
 
-    public CardAdapter(List<Model> modelList, Context context) {
+    public CardAdapter(List<Model> modelList, String gender, Context context) {
         this.modelList = modelList;
         this.context = context;
+        this.gender = gender;
     }
 
     @Override
@@ -40,7 +42,12 @@ public class CardAdapter extends BaseCardAdapter{
         ImageView imageView = cardview.findViewById(R.id.imageView);
 
         Model model = modelList.get(position);
-        Picasso.with(context).load(model.getImage()).into(imageView);
 
+        if(gender.equals("male")){
+            Picasso.with(context).load("file:///android_asset/malePics/"+model.getImage()).into(imageView);
+        } else{
+            Picasso.with(context).load("file:///android_asset/femalePics/"+model.getImage()).into(imageView);
+
+        }
     }
 }
